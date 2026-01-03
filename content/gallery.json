@@ -1,0 +1,37 @@
+[
+  {
+    "id": "culture-night-1",
+    "src": "/images/gallery/culture1.jpg",
+    "alt": "Students dancing at Culture Night",
+    "album": "Culture Night 2025",
+    "date": "2025-04-20"
+  },
+  {
+    "id": "culture-night-2",
+    "src": "/images/gallery/culture2.jpg",
+    "alt": "Fashion show segment",
+    "album": "Culture Night 2025",
+    "date": "2025-04-20"
+  },
+  {
+    "id": "welcome-1",
+    "src": "/images/gallery/welcome1.jpg",
+    "alt": "Group photo at Welcome Night",
+    "album": "Welcome Night 2026",
+    "date": "2026-09-10"
+  },
+  {
+    "id": "retreat-1",
+    "src": "/images/gallery/retreat1.jpg",
+    "alt": "Board retreat hiking trip",
+    "album": "Board Retreat",
+    "date": "2025-08-25"
+  },
+  {
+    "id": "panel-1",
+    "src": "/images/gallery/panel1.jpg",
+    "alt": "Panelists discussing career paths",
+    "album": "Career Panel",
+    "date": "2026-11-12"
+  }
+]
