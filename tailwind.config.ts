@@ -8,6 +8,14 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        hasa: {
+          red: '#8B2C2C',
+          maroon: '#4A1414',
+          sand: '#F7F2EE',
+          rose: '#EAD7D2',
+        },
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

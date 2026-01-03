@@ -3,26 +3,39 @@
     "id": "president",
     "name": "Bessy Dushime",
     "role": "President",
-    "photo": "/images/leaders/president.jpg",
+    "photo": "/images/leaders/bessy-dushime.jpg",
     "blurb": "Leading HASA to new heights with a focus on community engagement.",
-    "bio": "Sarah is a junior studying Economics and Government. She has been involved with HASA since her freshman year and is passionate about fostering a strong African community on campus.",
+    "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     "majorYear": "Economics ‘26",
-    "responsibilities": ["Leads board meetings", "Liaises with university administration", "Oversees all major events"],
+    "responsibilities": [
+      "Leads board meetings",
+      "Liaises with university administration",
+      "Oversees all major events"
+    ],
     "email": "president@hasa.harvard.edu",
-    "social": { "linkedin": "https://linkedin.com" },
-    "funFact": "I've visited 15 African countries!"
+    "social": {
+      "linkedin": "https://linkedin.com"
+    },
+    "funFact": "I've visited 15 African countries!",
+    "imagePosition": "object-top"
   },
   {
     "id": "vp",
     "name": "Joel Kizito",
     "role": "Vice President",
-    "photo": "/images/leaders/vp.jpg",
+    "photo": "/images/leaders/joel-kizito.jpg",
     "blurb": "Supporting the president and ensuring smooth internal operations.",
-    "bio": "David is a sophomore in Computer Science. He loves organizing events and making sure everyone feels welcome.",
+    "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     "majorYear": "CS ‘27",
-    "responsibilities": ["Supports President", "Manages internal committees", "Coordinates board retreats"],
+    "responsibilities": [
+      "Supports President",
+      "Manages internal committees",
+      "Coordinates board retreats"
+    ],
     "email": "vp@hasa.harvard.edu",
-    "social": { "instagram": "https://instagram.com" }
+    "social": {
+      "instagram": "https://instagram.com"
+    }
   },
   {
     "id": "senior-rep",
@@ -30,25 +43,33 @@
     "role": "Senior Representative",
     "photo": "/images/leaders/jean-yves.jpg",
     "blurb": "Representing the senior class and alumni relations.",
-    "bio": "Jean is dedicated to ensuring seniors have a memorable final year and stay connected to the HASA community.",
+    "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     "majorYear": "Senior ‘25",
-    "responsibilities": ["Liaises with seniors", "Organizes senior send-off", "Alumni networking"],
+    "responsibilities": [
+      "Liaises with seniors",
+      "Organizes senior send-off",
+      "Alumni networking"
+    ],
     "email": "senior@hasa.harvard.edu",
     "social": {},
-    "imagePosition": "object-center",
-    "imageFit": "object-contain"
+    "imagePosition": "object-[50%_25%]"
   },
   {
     "id": "treasurer",
     "name": "Isa Salmanu",
     "role": "Treasurer",
-    "photo": "/images/leaders/treasurer.jpg",
+    "photo": "/images/leaders/isa-salmanu.jpg",
     "blurb": "Managing finances and ensuring our events are well-funded.",
-    "bio": "Amara is a senior in Applied Math. She keeps the books balanced and ensures we can afford the best jollof rice.",
+    "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     "majorYear": "Applied Math ‘25",
-    "responsibilities": ["Manages budget", "Processes reimbursements", "Fundraising"],
+    "responsibilities": [
+      "Manages budget",
+      "Processes reimbursements",
+      "Fundraising"
+    ],
     "email": "treasurer@hasa.harvard.edu",
-    "social": {}
+    "social": {},
+    "imagePosition": "object-top"
   },
   {
     "id": "secretary",
@@ -58,7 +79,11 @@
     "blurb": "Keeping records and communicating with the general body.",
     "bio": "Helina is a Junior from Rockville, MD, concentrating in Economics. She is proud of her Ethiopian heritage and dedicated to keeping the community connected.",
     "majorYear": "Economics, Junior",
-    "responsibilities": ["Takes meeting minutes", "Manages mailing list", "Sends weekly newsletters"],
+    "responsibilities": [
+      "Takes meeting minutes",
+      "Manages mailing list",
+      "Sends weekly newsletters"
+    ],
     "email": "secretary@hasa.harvard.edu",
     "social": {},
     "funFact": "The Ethiopian calendar has 13 months",
@@ -68,25 +93,52 @@
     "id": "social-chair",
     "name": "Evelyn Gathara",
     "role": "Social Chair",
-    "photo": "/images/leaders/social.jpg",
+    "photo": "/images/leaders/evelyn-gathara.jpg",
     "blurb": "Planning the fun stuff! Mixers, parties, and game nights.",
-    "bio": "Zainab is the life of the party and loves bringing people together through music and dance.",
+    "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     "majorYear": "Sociology ‘26",
-    "responsibilities": ["Plans social events", "Coordinates with other cultural orgs", "Manages music playlists"],
+    "responsibilities": [
+      "Plans social events",
+      "Coordinates with other cultural orgs",
+      "Manages music playlists"
+    ],
     "email": "social@hasa.harvard.edu",
-    "social": {}
+    "social": {},
+    "imagePosition": "object-top"
   },
   {
     "id": "pub-chair",
     "name": "Lidya Tadesse",
     "role": "Publicity Chair",
-    "photo": "/images/leaders/pub.jpg",
+    "photo": "/images/leaders/lidya-tadesse.jpg",
     "blurb": "Spreading the word about HASA events and initiatives.",
-    "bio": "Kwame is a master of Canva and social media. He makes sure our events are packed.",
+    "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     "majorYear": "Visual Arts ‘26",
-    "responsibilities": ["Manages social media", "Creates flyers", "Promotes events"],
+    "responsibilities": [
+      "Manages social media",
+      "Creates flyers",
+      "Promotes events"
+    ],
     "email": "pub@hasa.harvard.edu",
-    "social": {}
+    "social": {},
+    "imagePosition": "object-[50%_25%]"
+  },
+  {
+    "id": "political-action-chair",
+    "name": "Condoleezza Dwuye",
+    "role": "Political Action Chair",
+    "photo": "/images/leaders/condoleezza-dwuye.jpg",
+    "blurb": "Leading political engagement and advocacy initiatives.",
+    "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    "majorYear": "Undeclared",
+    "responsibilities": [
+      "Organizes political events",
+      "Advocacy",
+      "Community outreach"
+    ],
+    "email": "political@hasa.harvard.edu",
+    "social": {},
+    "imagePosition": "object-[50%_35%]"
   },
   {
     "id": "tech-chair",
@@ -96,31 +148,46 @@
     "blurb": "Building and maintaining the HASA website and tech infrastructure.",
     "bio": "Dandi is an Electrical Engineering student who loves building systems that work in the real world.",
     "majorYear": "EE ‘27",
-    "responsibilities": ["Maintains website", "Manages event tech", "Technical support"],
+    "responsibilities": [
+      "Maintains website",
+      "Manages event tech",
+      "Technical support"
+    ],
     "email": "tech@hasa.harvard.edu",
-    "social": { "github": "https://github.com/dantdani" }
+    "social": {
+      "github": "https://github.com/dantdani"
+    }
   },
   {
     "id": "freshman-rep",
     "name": "Antony Ochieng",
     "role": "Freshman Representative",
-    "photo": "/images/leaders/freshman.jpg",
+    "photo": "/images/leaders/antony-ochieng.jpg",
     "blurb": "Representing the voice of the first-year class.",
-    "bio": "Amina is excited to be part of HASA and help new students find their home away from home.",
+    "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     "majorYear": "Undeclared ‘28",
-    "responsibilities": ["Liaises with freshmen", "Organizes freshman mixer", "Assists other board members"],
+    "responsibilities": [
+      "Liaises with freshmen",
+      "Organizes freshman mixer",
+      "Assists other board members"
+    ],
     "email": "freshman@hasa.harvard.edu",
-    "social": {}
+    "social": {},
+    "imagePosition": "object-top"
   },
   {
     "id": "freshman-rep-2",
     "name": "Garvin Alimu",
     "role": "Freshman Representative",
-    "photo": "/images/leaders/freshman.jpg",
+    "photo": "/images/leaders/garvin-alimu.jpg",
     "blurb": "Representing the voice of the first-year class.",
-    "bio": "Garvin is excited to be part of HASA and help new students find their home away from home.",
+    "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     "majorYear": "Undeclared ‘28",
-    "responsibilities": ["Liaises with freshmen", "Organizes freshman mixer", "Assists other board members"],
+    "responsibilities": [
+      "Liaises with freshmen",
+      "Organizes freshman mixer",
+      "Assists other board members"
+    ],
     "email": "freshman2@hasa.harvard.edu",
     "social": {}
   }

@@ -20,12 +20,12 @@ export default async function EventsPage() {
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
-    <div className="bg-white min-h-screen py-12">
+    <div className="min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Events</h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            From cultural showcases to career panels, see what we're up to.
+          <h1 className="text-4xl font-bold text-white mb-4">Events</h1>
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            From cultural showcases to moments of service and community, our events bring the African diaspora together at Harvard throughout the year.
           </p>
         </div>
 
@@ -33,7 +33,7 @@ export default async function EventsPage() {
 
         {upcomingEvents.length > 0 ? (
           <div className="mb-20">
-            <h2 className="text-2xl font-bold text-gray-900 mb-8 border-b pb-4">Upcoming Events</h2>
+            <h2 className="text-2xl font-bold text-white mb-8 border-b border-hasa-red/50 pb-4">Upcoming Events</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {upcomingEvents.map((event) => (
                 <EventCard key={event.id} event={event} />
@@ -42,8 +42,8 @@ export default async function EventsPage() {
           </div>
         ) : (
            <div className="mb-20">
-            <h2 className="text-2xl font-bold text-gray-900 mb-8 border-b pb-4">Upcoming Events</h2>
-            <p className="text-gray-500 italic">No upcoming events posted yet—check back soon.</p>
+            <h2 className="text-2xl font-bold text-white mb-8 border-b border-hasa-red/50 pb-4">Upcoming Events</h2>
+            <p className="text-gray-400 italic">No upcoming events posted yet—check back soon.</p>
           </div>
         )}
 

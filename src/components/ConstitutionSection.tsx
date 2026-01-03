@@ -61,7 +61,7 @@ export default function ConstitutionSection() {
 
               <div className="flex flex-wrap gap-4 items-center">
                 <a 
-                  href="/docs/hsa-constitution.pdf" 
+                  href="/documents/THE_HASA_Constitution.pdf" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="inline-flex items-center px-6 py-3 rounded-lg bg-indigo-600 text-white font-semibold shadow-lg hover:bg-indigo-700 hover:shadow-indigo-500/30 transition-all duration-300 transform hover:-translate-y-0.5"
@@ -94,7 +94,7 @@ export default function ConstitutionSection() {
           >
             <div className="p-4 h-[500px]">
               <iframe 
-                src="/docs/hsa-constitution.pdf" 
+                src="/documents/THE_HASA_Constitution.pdf" 
                 className="w-full h-full rounded-lg border border-gray-200 shadow-inner bg-white"
                 title="HASA Constitution Preview"
               />

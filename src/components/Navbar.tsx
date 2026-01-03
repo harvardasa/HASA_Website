@@ -1,12 +1,21 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const links = [
     { href: '/', label: 'Home' },
@@ -18,12 +27,18 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
+    <nav 
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        isScrolled 
+          ? 'bg-black/80 backdrop-blur-md shadow-md border-b border-hasa-red/30' 
+          : 'bg-black/40 backdrop-blur-sm border-b border-transparent'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-              <Link href="/" className="text-2xl font-bold text-red-800">
+              <Link href="/" className="text-2xl font-bold text-hasa-red tracking-tight drop-shadow-sm">
                 HASA
               </Link>
             </div>
@@ -33,10 +48,10 @@ const Navbar = () => {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
+                className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-200 ${
                   pathname === link.href
-                    ? 'border-red-800 text-gray-900'
-                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+                    ? 'border-hasa-red text-white'
+                    : 'border-transparent text-gray-300 hover:border-hasa-red/50 hover:text-white'
                 }`}
               >
                 {link.label}
@@ -46,7 +61,7 @@ const Navbar = () => {
           <div className="-mr-2 flex items-center sm:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-red-500"
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-hasa-red"
             >
               <span className="sr-only">Open main menu</span>
               {!isOpen ? (
@@ -88,7 +103,7 @@ const Navbar = () => {
       </div>
 
       {isOpen && (
-        <div className="sm:hidden">
+        <div className="sm:hidden bg-black/90 border-t border-hasa-red/30 backdrop-blur-xl">
           <div className="pt-2 pb-3 space-y-1">
             {links.map((link) => (
               <Link
@@ -97,8 +112,8 @@ const Navbar = () => {
                 onClick={() => setIsOpen(false)}
                 className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
                   pathname === link.href
-                    ? 'bg-red-50 border-red-800 text-red-700'
-                    : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700'
+                    ? 'bg-hasa-red/20 border-hasa-red text-white'
+                    : 'border-transparent text-gray-300 hover:bg-white/5 hover:border-hasa-red/50 hover:text-white'
                 }`}
               >
                 {link.label}
