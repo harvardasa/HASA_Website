@@ -1,97 +1,152 @@
-'use client';
+'use client'
 
-import { FormEvent, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { getAdminContentService } from '@/lib/admin/clientService';
+import { Suspense, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import Link from 'next/link'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { adminLoginSchema } from '@/lib/validations'
+import type { z } from 'zod'
+import { createClient } from '@/lib/supabase/client'
 
-const DEV_FALLBACK_ADMIN_KEY = 'hasa-admin';
+type FormData = z.infer<typeof adminLoginSchema>
 
-export default function AdminLoginPage() {
-  const [adminKey, setAdminKey] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+function LoginForm() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const errorParam = searchParams.get('error')
+  const initialError =
+    errorParam === 'not_authorized'
+      ? 'This email is not authorized for admin access. Contact the HASA board if you think this is wrong.'
+      : null
 
-  const router = useRouter();
+  const [error, setError] = useState<string | null>(initialError)
+  const [status, setStatus] = useState<'idle' | 'checking' | 'signing-in'>('idle')
 
-  async function handleSubmit(event: FormEvent) {
-    event.preventDefault();
-    setError(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({ resolver: zodResolver(adminLoginSchema) })
 
-    if (!adminKey.trim()) {
-      setError('Admin key is required.');
-      return;
+  const onSubmit = async ({ email, password }: FormData) => {
+    setError(null)
+    setStatus('checking')
+
+    // 1. Check email is on the allowlist BEFORE attempting password auth.
+    //    This prevents Supabase from leaking whether the email exists.
+    const checkRes = await fetch('/api/admin/check-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    })
+    const { allowed } = await checkRes.json()
+
+    if (!allowed) {
+      setStatus('idle')
+      setError(
+        'This email is not authorized for admin access. Contact the HASA board if you think this is wrong.'
+      )
+      return
     }
 
-    try {
-      setLoading(true);
-      await getAdminContentService().login(adminKey.trim());
-      const nextPath =
-        typeof window !== 'undefined'
-          ? new URLSearchParams(window.location.search).get('next') || '/admin/events'
-          : '/admin/events';
-      router.replace(nextPath);
-      router.refresh();
-    } catch (submissionError) {
-      const message =
-        submissionError instanceof Error
-          ? submissionError.message
-          : 'Unable to sign in.';
-      setError(message);
-    } finally {
-      setLoading(false);
+    // 2. Email is allowed — attempt password sign-in
+    setStatus('signing-in')
+    const supabase = createClient()
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+
+    if (signInError) {
+      setStatus('idle')
+      setError('Incorrect email or password.')
+      return
     }
+
+    // Success — go to dashboard. The shell will auto-promote role to admin.
+    router.replace('/admin')
+    router.refresh()
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 px-4 py-16">
-      <div className="mx-auto w-full max-w-md rounded-xl border border-gray-200 bg-white p-6 shadow-lg sm:p-8">
-        <h1 className="text-2xl font-bold text-gray-900">Admin Sign In</h1>
-        <p className="mt-2 text-sm text-gray-600">
-          Enter your admin key to access content management tools.
-        </p>
-        <p className="mt-2 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
-          Local development shortcut: if no ADMIN_DASHBOARD_KEY is configured, use
-          {' '}
-          {DEV_FALLBACK_ADMIN_KEY}
-          .
-        </p>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12">
+      <div className="w-full max-w-md">
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-bold text-gray-900">HASA Admin</h1>
+          <p className="text-sm text-gray-500 mt-1">Sign in to manage the website</p>
+        </div>
 
-        <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
-          <label className="block text-sm font-medium text-gray-700" htmlFor="admin-key">
-            Admin key
-          </label>
-          <input
-            id="admin-key"
-            type="password"
-            value={adminKey}
-            onChange={(event) => setAdminKey(event.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-300"
-            autoComplete="current-password"
-            placeholder="Enter admin key"
-          />
-          <button
-            type="button"
-            onClick={() => setAdminKey(DEV_FALLBACK_ADMIN_KEY)}
-            className="inline-flex rounded-md border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50"
-          >
-            Use local default key
-          </button>
+        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div className="space-y-1.5">
+              <label htmlFor="email" className="text-sm font-medium text-gray-700">
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                autoComplete="email"
+                disabled={status !== 'idle'}
+                {...register('email')}
+                className="w-full h-10 rounded-md border border-gray-300 px-3 text-sm shadow-sm disabled:bg-gray-50"
+              />
+              {errors.email && (
+                <p className="text-sm text-red-600">{errors.email.message}</p>
+              )}
+            </div>
 
-          {error ? (
-            <p className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
-              {error}
-            </p>
-          ) : null}
+            <div className="space-y-1.5">
+              <label htmlFor="password" className="text-sm font-medium text-gray-700">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                autoComplete="current-password"
+                disabled={status !== 'idle'}
+                {...register('password')}
+                className="w-full h-10 rounded-md border border-gray-300 px-3 text-sm shadow-sm disabled:bg-gray-50"
+              />
+              {errors.password && (
+                <p className="text-sm text-red-600">{errors.password.message}</p>
+              )}
+            </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full rounded-md bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-black disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {loading ? 'Signing in...' : 'Sign in'}
-          </button>
-        </form>
+            {error && (
+              <div className="rounded-md bg-red-50 border border-red-200 p-3 text-sm text-red-700">
+                {error}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={status !== 'idle'}
+              className="w-full h-10 rounded-md bg-gray-900 text-white font-medium hover:bg-gray-800 disabled:opacity-60"
+            >
+              {status === 'checking'
+                ? 'Checking…'
+                : status === 'signing-in'
+                  ? 'Signing in…'
+                  : 'Sign in'}
+            </button>
+
+            <div className="text-center text-sm text-gray-500">
+              <Link href="/admin/forgot-password" className="underline hover:text-gray-900">
+                Forgot password?
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  );
+  )
+}
+
+export default function AdminLoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
+  )
 }

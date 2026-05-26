@@ -4,6 +4,31 @@ export const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
 })
 
+// Admin password policy — stricter than member password (14+ chars).
+// Members use magic links, so they have no password. This applies only to CMS admins.
+export const adminPasswordSchema = z
+  .string()
+  .min(14, 'Password must be at least 14 characters')
+  .regex(/[a-z]/, 'Must include a lowercase letter')
+  .regex(/[A-Z]/, 'Must include an uppercase letter')
+  .regex(/[0-9]/, 'Must include a number')
+  .regex(/[^a-zA-Z0-9]/, 'Must include a symbol (e.g. !@#$%^&*)')
+
+export const adminLoginSchema = z.object({
+  email: z.string().email('Please enter a valid email address'),
+  password: z.string().min(1, 'Password is required'),
+})
+
+export const adminResetPasswordSchema = z
+  .object({
+    password: adminPasswordSchema,
+    confirm: z.string(),
+  })
+  .refine((data) => data.password === data.confirm, {
+    message: 'Passwords do not match',
+    path: ['confirm'],
+  })
+
 const urlOrEmpty = z
   .string()
   .optional()
