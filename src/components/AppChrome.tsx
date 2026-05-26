@@ -5,15 +5,26 @@ import { usePathname } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
+// Routes that render full-screen layouts and should NOT show HASA's
+// public-facing Navbar/Footer.
+const STANDALONE_PREFIXES = [
+  '/admin',         // HASA CMS admin dashboard
+  '/login',         // directory magic-link login
+  '/verify',        // magic-link confirmation
+  '/onboarding',    // directory profile wizard
+];
+
 export default function AppChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const isAdminRoute = pathname?.startsWith('/admin');
+  const standalone = STANDALONE_PREFIXES.some((p) =>
+    pathname?.startsWith(p)
+  );
 
   return (
     <div className="flex min-h-screen flex-col">
-      {!isAdminRoute ? <Navbar /> : null}
+      {!standalone ? <Navbar /> : null}
       <main className="flex-grow">{children}</main>
-      {!isAdminRoute ? <Footer /> : null}
+      {!standalone ? <Footer /> : null}
     </div>
   );
 }
