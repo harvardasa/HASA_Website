@@ -1,4 +1,4 @@
-// CMS admin email allowlist — controls who can sign in to admin.harvardafricans.com.
+// CMS admin email allowlist — controls who can sign in to admin.harvardafricans.com (or wherever the admin subdomain is deployed).
 // Loaded from the ADMIN_EMAIL_ALLOWLIST env var (comma-separated, no spaces).
 // Comparison is case-insensitive.
 //
