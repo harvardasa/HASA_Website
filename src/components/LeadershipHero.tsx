@@ -5,11 +5,10 @@ import { useEffect, useRef, useState } from 'react';
 export default function LeadershipHero() {
   const [offset, setOffset] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded] = useState(true);
   const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setIsLoaded(true);
     const handleScroll = () => {
       setOffset(window.scrollY);
     };

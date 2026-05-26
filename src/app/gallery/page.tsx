@@ -1,4 +1,4 @@
-import { getGallery } from '@/lib/api';
+import { getGallery, getSiteContent } from '@/lib/api';
 import Image from 'next/image';
 
 export const metadata = {
@@ -7,7 +7,8 @@ export const metadata = {
 };
 
 export default async function GalleryPage() {
-  const gallery = await getGallery();
+  const galleryEvents = await getGallery();
+  const siteContent = await getSiteContent();
 
   return (
     <div className="min-h-screen py-12">
@@ -15,7 +16,7 @@ export default async function GalleryPage() {
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-white mb-4">Gallery</h1>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            Capturing moments from our community.
+            {siteContent.galleryIntro}
           </p>
         </div>
 
@@ -38,24 +39,41 @@ export default async function GalleryPage() {
           </a>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {gallery.map((item) => (
-            <div key={item.id} className="relative aspect-square group overflow-hidden rounded-lg bg-gray-900 border border-white/5">
-              <Image
-                src={item.image}
-                alt={item.title}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-opacity duration-300 flex items-end">
-                <div className="p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="font-bold text-sm">{item.title}</p>
-                  <p className="text-xs text-gray-300">{item.album}</p>
+        {galleryEvents.length === 0 ? (
+          <p className="rounded-md border border-white/10 bg-black/30 px-4 py-3 text-sm text-gray-200">
+            No gallery images have been published yet.
+          </p>
+        ) : (
+          <div className="space-y-12">
+            {galleryEvents.map((eventGallery) => (
+              <section key={eventGallery.id}>
+                <div className="mb-4 flex items-end justify-between gap-3 border-b border-white/10 pb-3">
+                  <h2 className="text-2xl font-bold text-white">{eventGallery.eventName}</h2>
+                  <p className="text-sm text-gray-300">
+                    {new Date(eventGallery.date).toLocaleDateString()}
+                  </p>
                 </div>
-              </div>
-            </div>
-          ))}
-        </div>
+
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                  {eventGallery.images.map((image) => (
+                    <div
+                      key={image.id}
+                      className="relative aspect-square overflow-hidden rounded-lg border border-white/5 bg-gray-900"
+                    >
+                      <Image
+                        src={image.src}
+                        alt={eventGallery.eventName}
+                        fill
+                        className="object-cover transition-transform duration-300 hover:scale-105"
+                        sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </section>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

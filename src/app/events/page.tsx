@@ -1,4 +1,4 @@
-import { getEvents, getFeaturedEvents } from '@/lib/api';
+import { getEvents, getFeaturedEvents, getSiteContent } from '@/lib/api';
 import EventCard from '@/components/EventCard';
 import FeaturedEventsSection from '@/components/FeaturedEventsSection';
 
@@ -9,11 +9,15 @@ export const metadata = {
 
 export default async function EventsPage() {
   const events = await getEvents();
-  const featuredEvents = await getFeaturedEvents();
+  const latestEvents = await getFeaturedEvents();
+  const siteContent = await getSiteContent();
   
   const upcomingEvents = events
     .filter((e) => e.category === 'upcoming')
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+  const nextUpcomingEvents = upcomingEvents.slice(0, 3);
+  const additionalUpcomingEvents = upcomingEvents.slice(3);
     
   const pastEvents = events
     .filter((e) => e.category === 'past')
@@ -25,27 +29,44 @@ export default async function EventsPage() {
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-white mb-4">Events</h1>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            From cultural showcases to moments of service and community, our events bring the African diaspora together at Harvard throughout the year.
+            {siteContent.eventsIntro}
           </p>
         </div>
 
-        <FeaturedEventsSection events={featuredEvents} />
+        <div className="mb-20">
+          <h2 className="text-2xl font-bold text-white mb-8 border-b border-hasa-red/50 pb-4">
+            Upcoming Events
+          </h2>
 
-        {upcomingEvents.length > 0 ? (
-          <div className="mb-20">
-            <h2 className="text-2xl font-bold text-white mb-8 border-b border-hasa-red/50 pb-4">Upcoming Events</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {upcomingEvents.map((event) => (
-                <EventCard key={event.id} event={event} />
-              ))}
+          {nextUpcomingEvents.length > 0 ? (
+            <div className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {nextUpcomingEvents.map((event) => (
+                  <EventCard key={event.id} event={event} />
+                ))}
+              </div>
+
+              {additionalUpcomingEvents.length > 0 ? (
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold text-white">More Upcoming Events</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {additionalUpcomingEvents.map((event) => (
+                      <EventCard key={event.id} event={event} />
+                    ))}
+                  </div>
+                </div>
+              ) : null}
             </div>
-          </div>
-        ) : (
-           <div className="mb-20">
-            <h2 className="text-2xl font-bold text-white mb-8 border-b border-hasa-red/50 pb-4">Upcoming Events</h2>
-            <p className="text-gray-400 italic">No upcoming events posted yet—check back soon.</p>
-          </div>
-        )}
+          ) : (
+            <p className="text-gray-400 italic">No upcoming events posted yet. Check back soon.</p>
+          )}
+        </div>
+
+        <FeaturedEventsSection
+          title="Latest Events"
+          emptyMessage="No published events are available yet."
+          events={latestEvents}
+        />
 
         <div>
           <h2 className="text-2xl font-bold text-gray-900 mb-8 border-b pb-4">Past Events</h2>

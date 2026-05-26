@@ -1,5 +1,5 @@
-import { getLeaders } from '@/lib/api';
-import LeaderCard from '@/components/LeaderCard';
+import { getLeaders, getSiteContent } from '@/lib/api';
+import LeadershipBoards from '@/components/LeadershipBoards';
 import LeadershipHero from '@/components/LeadershipHero';
 
 export const metadata = {
@@ -8,7 +8,7 @@ export const metadata = {
 };
 
 export default async function LeadershipPage() {
-  const leaders = await getLeaders();
+  const [leaders, siteContent] = await Promise.all([getLeaders(), getSiteContent()]);
 
   return (
     <div className="min-h-screen relative">
@@ -29,11 +29,10 @@ export default async function LeadershipPage() {
         <LeadershipHero />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {leaders.map((leader) => (
-              <LeaderCard key={leader.id} leader={leader} />
-            ))}
-          </div>
+          <LeadershipBoards
+            leaders={leaders}
+            currentAcademicYear={siteContent.leadershipCurrentYear}
+          />
         </div>
       </div>
     </div>

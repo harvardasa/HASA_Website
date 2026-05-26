@@ -68,7 +68,7 @@ export default async function Home() {
             <h2 className="text-3xl font-bold text-white mb-4">Who We Are</h2>
             <p className="text-lg text-gray-300 max-w-4xl mx-auto">
               HASA is dedicated to building a community for African students at Harvard and anyone interested in the continent. 
-              We organize cultural, social, and intellectual events to foster understanding and celebration of Africa's heritage.
+              We organize cultural, social, and intellectual events to foster understanding and celebration of Africa&apos;s heritage.
             </p>
           </div>
         </div>

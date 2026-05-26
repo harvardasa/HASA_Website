@@ -1,37 +1,98 @@
 [
   {
-    "id": "culture-night-1",
-    "src": "/images/gallery/culture1.jpg",
-    "alt": "Students dancing at Culture Night",
-    "album": "Culture Night 2025",
-    "date": "2025-04-20"
+    "id": "fall-feast-2026-1779762015741",
+    "eventName": "Fall Feast 2026",
+    "date": "2026-10-27",
+    "status": "published",
+    "images": [
+      {
+        "id": "fall-feast-2026-1779762015741-1",
+        "src": "/images/gallery/fall-feast-2026-1779762015741-1.png",
+        "metadata": {
+          "originalName": "Screenshot 2026-05-25 200144.png",
+          "mimeType": "image/png",
+          "sizeBytes": 424216,
+          "uploadedAt": "2026-05-26T02:20:15.741Z"
+        }
+      },
+      {
+        "id": "fall-feast-2026-1779762015741-2",
+        "src": "/images/gallery/fall-feast-2026-1779762015741-2.png",
+        "metadata": {
+          "originalName": "Screenshot 2026-05-25 200119.png",
+          "mimeType": "image/png",
+          "sizeBytes": 303406,
+          "uploadedAt": "2026-05-26T02:20:15.741Z"
+        }
+      },
+      {
+        "id": "fall-feast-2026-1779762015741-3",
+        "src": "/images/gallery/fall-feast-2026-1779762015741-3.png",
+        "metadata": {
+          "originalName": "Screenshot 2026-05-25 200110.png",
+          "mimeType": "image/png",
+          "sizeBytes": 693435,
+          "uploadedAt": "2026-05-26T02:20:15.741Z"
+        }
+      },
+      {
+        "id": "fall-feast-2026-1779762015741-4",
+        "src": "/images/gallery/fall-feast-2026-1779762015741-4.png",
+        "metadata": {
+          "originalName": "Screenshot 2026-05-25 200100.png",
+          "mimeType": "image/png",
+          "sizeBytes": 282539,
+          "uploadedAt": "2026-05-26T02:20:15.741Z"
+        }
+      },
+      {
+        "id": "fall-feast-2026-1779762015741-5",
+        "src": "/images/gallery/fall-feast-2026-1779762015741-5.png",
+        "metadata": {
+          "originalName": "Screenshot 2026-05-25 200048.png",
+          "mimeType": "image/png",
+          "sizeBytes": 447542,
+          "uploadedAt": "2026-05-26T02:20:15.741Z"
+        }
+      }
+    ]
   },
   {
-    "id": "culture-night-2",
-    "src": "/images/gallery/culture2.jpg",
-    "alt": "Fashion show segment",
-    "album": "Culture Night 2025",
-    "date": "2025-04-20"
-  },
-  {
-    "id": "welcome-1",
-    "src": "/images/gallery/welcome1.jpg",
-    "alt": "Group photo at Welcome Night",
-    "album": "Welcome Night 2026",
-    "date": "2026-09-10"
-  },
-  {
-    "id": "retreat-1",
-    "src": "/images/gallery/retreat1.jpg",
-    "alt": "Board retreat hiking trip",
-    "album": "Board Retreat",
-    "date": "2025-08-25"
-  },
-  {
-    "id": "panel-1",
-    "src": "/images/gallery/panel1.jpg",
-    "alt": "Panelists discussing career paths",
-    "album": "Career Panel",
-    "date": "2026-11-12"
+    "id": "africa-night-2026-1779762089575",
+    "eventName": "Africa Night 2026",
+    "date": "2026-05-26",
+    "status": "published",
+    "images": [
+      {
+        "id": "africa-night-2026-1779762089575-1",
+        "src": "/images/gallery/africa-night-2026-1779762089575-1.png",
+        "metadata": {
+          "originalName": "Screenshot 2026-05-25 200110.png",
+          "mimeType": "image/png",
+          "sizeBytes": 693435,
+          "uploadedAt": "2026-05-26T02:21:29.575Z"
+        }
+      },
+      {
+        "id": "africa-night-2026-1779762089575-2",
+        "src": "/images/gallery/africa-night-2026-1779762089575-2.png",
+        "metadata": {
+          "originalName": "Screenshot 2026-05-25 200100.png",
+          "mimeType": "image/png",
+          "sizeBytes": 282539,
+          "uploadedAt": "2026-05-26T02:21:29.575Z"
+        }
+      },
+      {
+        "id": "africa-night-2026-1779762089575-3",
+        "src": "/images/gallery/africa-night-2026-1779762089575-3.png",
+        "metadata": {
+          "originalName": "Screenshot 2026-05-25 200048.png",
+          "mimeType": "image/png",
+          "sizeBytes": 447542,
+          "uploadedAt": "2026-05-26T02:21:29.575Z"
+        }
+      }
+    ]
   }
 ]
