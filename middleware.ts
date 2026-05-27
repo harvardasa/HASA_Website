@@ -4,9 +4,6 @@ import { createServerClient } from '@supabase/ssr'
 import { isAdminEmail } from '@/lib/admin-auth'
 
 // ─── Subdomain detection ─────────────────────────────────────────────────────
-// Production: admin.harvardafricans.com, alumni.harvardafricans.com, harvardafricans.com
-// Dev:        localhost:3000 (treated as apex)
-// Preview:    *.vercel.app   (treated as apex)
 
 type Subdomain = 'admin' | 'alumni' | null
 
@@ -37,7 +34,6 @@ const ALUMNI_PATH_PREFIXES = [
 
 const ADMIN_PATH_PREFIXES = ['/admin', '/api/admin']
 
-// Admin paths that don't require Supabase auth (used before sign-in)
 const ADMIN_PUBLIC_PATHS = [
   '/admin/login',
   '/admin/forgot-password',
@@ -52,6 +48,21 @@ const DIRECTORY_PROTECTED_PREFIXES = [
   '/onboarding',
 ]
 const DIRECTORY_AUTH_PAGES = ['/login', '/verify']
+
+// Routes that need Supabase auth checks. Other routes (marketing site, etc)
+// skip Supabase entirely — saves work and prevents env-var crashes.
+function needsSupabase(pathname: string): boolean {
+  return (
+    pathname.startsWith('/admin') ||
+    pathname.startsWith('/api/admin') ||
+    pathname.startsWith('/directory') ||
+    pathname.startsWith('/profile') ||
+    pathname.startsWith('/pending') ||
+    pathname.startsWith('/onboarding') ||
+    pathname === '/login' || pathname.startsWith('/login/') ||
+    pathname === '/verify' || pathname.startsWith('/verify/')
+  )
+}
 
 export async function middleware(request: NextRequest) {
   const host = request.headers.get('host') || ''
@@ -79,7 +90,6 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(`${PROD_APEX}${pathname}`)
       }
     } else {
-      // Apex: bounce admin / directory paths to their subdomains
       if (pathname.startsWith('/admin') || pathname.startsWith('/api/admin')) {
         return NextResponse.redirect(`${PROD_ADMIN}${pathname}`)
       }
@@ -89,38 +99,57 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // ─── Build Supabase server client (used for both admin + directory auth) ──
+  // ─── For public-marketing routes, skip Supabase entirely ──────────────────
+
+  if (!needsSupabase(pathname)) {
+    return NextResponse.next()
+  }
+
+  // ─── Env vars sanity check ────────────────────────────────────────────────
+  // Without these, Supabase calls crash. Better to fail with a clear message
+  // than the cryptic MIDDLEWARE_INVOCATION_FAILED.
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!supabaseUrl || !supabaseAnonKey) {
+    return new NextResponse(
+      'Server misconfigured: Supabase env vars missing. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in Vercel project settings → Environment Variables.',
+      { status: 500, headers: { 'content-type': 'text/plain' } }
+    )
+  }
+
+  // ─── Build Supabase server client ─────────────────────────────────────────
 
   let response = NextResponse.next({ request: { headers: request.headers } })
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll()
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value)
-          )
-          response = NextResponse.next({ request })
-          cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options)
-          )
-        },
+  const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
+    cookies: {
+      getAll() {
+        return request.cookies.getAll()
       },
-    }
-  )
+      setAll(cookiesToSet) {
+        cookiesToSet.forEach(({ name, value }) =>
+          request.cookies.set(name, value)
+        )
+        response = NextResponse.next({ request })
+        cookiesToSet.forEach(({ name, value, options }) =>
+          response.cookies.set(name, value, options)
+        )
+      },
+    },
+  })
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  let user = null
+  try {
+    const result = await supabase.auth.getUser()
+    user = result.data.user
+  } catch (err) {
+    // If Supabase is unreachable, fail open for public auth pages so the user
+    // can still see the login form. For protected pages, redirect to login.
+    console.error('[middleware] supabase.auth.getUser failed:', err)
+  }
 
-  // ─── Admin CMS auth (Supabase password + allowlist) ───────────────────────
-  // /admin/login, /admin/forgot-password, /admin/reset-password, /api/admin/check-email
-  // are public. All other /admin/* and /api/admin/* require allowlisted user.
+  // ─── Admin CMS auth ───────────────────────────────────────────────────────
 
   if (pathname.startsWith('/admin') || pathname.startsWith('/api/admin')) {
     const isPublic = ADMIN_PUBLIC_PATHS.some((p) => pathname === p || pathname.startsWith(p + '/'))
@@ -132,7 +161,6 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(url)
     }
     if (!isAdminEmail(user.email)) {
-      // Signed-in but not allowlisted — bounce to login with error
       const url = request.nextUrl.clone()
       url.pathname = '/admin/login'
       url.searchParams.set('error', 'not_authorized')
@@ -141,7 +169,7 @@ export async function middleware(request: NextRequest) {
     return response
   }
 
-  // ─── Directory routes (Supabase magic-link auth) ──────────────────────────
+  // ─── Directory routes ─────────────────────────────────────────────────────
 
   const isDirectoryProtected = DIRECTORY_PROTECTED_PREFIXES.some((p) =>
     pathname.startsWith(p)
